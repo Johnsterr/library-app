@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const Library = require("./Entity/Library.js");
 const Book = require("./Entity/Book.js");
@@ -74,5 +75,5 @@ app.delete("/api/books/:id", (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.APP_PORT || 3000;
 app.listen(PORT);
