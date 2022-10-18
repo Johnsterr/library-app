@@ -21,6 +21,13 @@ class Book {
   getId() {
     return this.id;
   }
+
+  updateTitle(title) {
+    this.title = title;
+  }
+  updateDescription(description) {
+    this.description = description;
+  }
 }
 
 module.exports = Book;

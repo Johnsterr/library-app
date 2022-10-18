@@ -1,5 +1,3 @@
-const Book = require("./Book.js");
-
 class Library {
   constructor() {
     this.books = [];
@@ -21,9 +19,12 @@ class Library {
     return this.books[index];
   }
 
-  deleteBookFromLibrary(id) {
-    const findedBookIndex = this.getBookIndexByBookId(id);
-    if (findedBookIndex !== -1) this.books.splice(findedBookIndex, 1);
+  getBookById(id) {
+    return this.books.find((book) => book.getId() === id);
+  }
+
+  deleteBookFromLibraryByIndex(index) {
+    if (index !== -1) [].splice.call(this.books, index, 1);
   }
 }
 
