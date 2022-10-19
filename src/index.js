@@ -29,7 +29,10 @@ app.get("/api/books/:id", (req, res) => {
     res.json(arLibrary.getBookByIndex(bookIndex));
   } else {
     res.status(404);
-    res.json(`Книга с id: ${id} не найдена`);
+    res.send({
+      errorCode: 404,
+      error: `Книга с id: ${id} не найдена`,
+    });
   }
 });
 
@@ -56,7 +59,10 @@ app.put("/api/books/:id", (req, res) => {
     res.json(book);
   } else {
     res.status(404);
-    res.json(`Книга с id: ${id} не найдена`);
+    res.send({
+      errorCode: 404,
+      error: `Книга с id: ${id} не найдена`,
+    });
   }
 });
 
@@ -71,9 +77,14 @@ app.delete("/api/books/:id", (req, res) => {
     res.json("ok");
   } else {
     res.status(404);
-    res.json(`Книга с id: ${id} не найдена`);
+    res.send({
+      errorCode: 404,
+      error: `Книга с id: ${id} не найдена`,
+    });
   }
 });
 
 const PORT = process.env.APP_PORT || 3000;
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Express server listening on port ${PORT}`);
+});
