@@ -7,7 +7,8 @@ class Book {
     authors = "",
     favorite = "",
     fileCover = "",
-    fileName = ""
+    fileName = "",
+    fileBook = ""
   ) {
     this.id = uuidv4();
     this.title = title;
@@ -16,6 +17,7 @@ class Book {
     this.favorite = favorite;
     this.fileCover = fileCover;
     this.fileName = fileName;
+    this.fileBook = fileBook;
   }
 
   getId() {
@@ -25,8 +27,17 @@ class Book {
   updateTitle(title) {
     this.title = title;
   }
+
   updateDescription(description) {
     this.description = description;
+  }
+
+  updateFileBookCover(fileBook) {
+    this.fileBook = fileBook;
+  }
+
+  getFileBookCover() {
+    return this.fileBook;
   }
 }
 
