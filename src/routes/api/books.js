@@ -1,4 +1,4 @@
-const path = require("path");
+const nodePath = require("path");
 const {Router} = require("express");
 const router = Router();
 const fileBook = require("../../middleware/fileBooks.js");
@@ -121,9 +121,12 @@ router.get("/:id/download", (req, res) => {
     });
   }
 
-  const coverPath = path.join(__dirname, `../../../${book.getFileBookCover()}`);
+  const coverPath = nodePath.join(
+    __dirname,
+    `../../../${book.getFileBookCover()}`
+  );
   res.status(200);
-  res.sendFile(coverPath);
+  res.download(coverPath);
 });
 
 module.exports = router;
