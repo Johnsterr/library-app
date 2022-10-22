@@ -8,8 +8,30 @@ const Book = require("../../Entity/Book.js");
 
 const arLibrary = new Library();
 
-arLibrary.addBookIntoLibrary(new Book("Ведьмак", "Сага о Геральте из Ривии"));
-arLibrary.addBookIntoLibrary(new Book("Дюна", "Фэнтази о пустунной планете"));
+arLibrary.addBookIntoLibrary(
+  new Book(
+    "Ведьмак",
+    "Сага о Геральте из Ривии",
+    "А. Сапковский",
+    "",
+    "",
+    "",
+    "public/upload/books/21.10.2022_715-witcher-cover.jpg",
+    "a139d9c2-a50e-4069-9667-588e27b71383"
+  )
+);
+arLibrary.addBookIntoLibrary(
+  new Book(
+    "Дюна",
+    "Фэнтази о пустунной планете",
+    "Ф. Герберт",
+    "",
+    "",
+    "",
+    "",
+    "59960142-10db-4f28-bf64-fd42f79b9f31"
+  )
+);
 
 router.get("/", (req, res) => {
   const books = arLibrary.getBooks();
@@ -18,6 +40,14 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   const {title, description} = req.body;
+
+  if (!title) {
+    res.status(404);
+    res.json({
+      errorCode: 404,
+      error: `Поле title должно быть заполнено`,
+    });
+  }
   const newBook = new Book(title, description);
 
   arLibrary.addBookIntoLibrary(newBook);

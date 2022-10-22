@@ -8,9 +8,10 @@ class Book {
     favorite = "",
     fileCover = "",
     fileName = "",
-    fileBook = ""
+    fileBook = "",
+    id = uuidv4()
   ) {
-    this.id = uuidv4();
+    this.id = id;
     this.title = title;
     this.description = description;
     this.authors = authors;
