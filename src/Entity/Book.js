@@ -25,6 +25,18 @@ class Book {
     return this.id;
   }
 
+  getTitle() {
+    return this.title;
+  }
+
+  getDescription() {
+    return this.description;
+  }
+
+  getFileBookCover() {
+    return this.fileBook;
+  }
+
   updateTitle(title) {
     this.title = title;
   }
@@ -35,10 +47,6 @@ class Book {
 
   updateFileBookCover(fileBook) {
     this.fileBook = fileBook;
-  }
-
-  getFileBookCover() {
-    return this.fileBook;
   }
 }
 
