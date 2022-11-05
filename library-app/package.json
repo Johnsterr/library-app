@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "node ./src/index.js",
-    "dev": "CHOKIDAR_USEPOLLING=true nodemon --watch src ./src/index.js"
+    "dev": "nodemon -L --watch src ./src/index.js"
   },
   "keywords": [],
   "author": "Evgeniy Pashko",
@@ -24,7 +24,7 @@
     "nodemon": "^2.0.20"
   },
   "engines": {
-    "node": "v16.16.0",
-    "npm": "8.19.1"
+    "node": "v18.12.0",
+    "npm": "8.19.3"
   }
 }

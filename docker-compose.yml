@@ -1,0 +1,38 @@
+services:
+  redis-db:
+    container_name: "redis-db"
+    images: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/data:/data/
+  library-app:
+    container_name: "library-app"
+    image: library-app
+    build:
+      context: ./library-app
+      dockerfile: Dockerfile
+    ports:
+      - 80:3000
+    volumes:
+      - ./library-app:/usr/library-app
+    depends_on:
+      - redis-db
+      - book-views-counter
+    env_file:
+      - ./config/.env
+  book-views-counter:
+    container_name: "book-views-counter"
+    image: book-views-counter
+    build:
+      context: ./book-views-counter
+      dockerfile: Dockerfile
+    ports:
+      - 3030:3030
+    volumes:
+      - ./book-views-counter:/usr/book-views-counter
+    env_file:
+      - ./config/.env
+volumes:
+  redis-db:
+    external: true
