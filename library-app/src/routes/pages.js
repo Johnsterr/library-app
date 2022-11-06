@@ -1,8 +1,14 @@
+const nodeHttp = require("http");
 const {Router} = require("express");
 const router = Router();
 
 const Library = require("../Entity/Library.js");
 const Book = require("../Entity/Book.js");
+
+const APP_COUNTER_URL =
+  process.env.APP_COUNTER_URL || "http://book-views-counter";
+const APP_COUNTER_PORT = process.env.APP_COUNTER_PORT || 3030;
+const apiUrl = new URL(`${APP_COUNTER_URL}:${APP_COUNTER_PORT}`);
 
 const arLibrary = new Library();
 
@@ -61,11 +67,33 @@ router.get("/view/:id", (req, res) => {
   const {id} = req.params;
   const findedBook = arLibrary.getBookById(id);
 
-  if (findedBook) {
-    res.render("view", {
-      title: "Книга | Просмотр",
-      book: findedBook,
-    });
+  if (id && findedBook) {
+    const counterReq = nodeHttp.request(
+      `${apiUrl}counter/${id}/incr`,
+      {
+        method: "POST",
+      },
+      (cb) => {
+        let responseBody = "";
+        cb.setEncoding("utf8");
+        cb.on("data", (chunk) => {
+          responseBody += chunk;
+        });
+
+        cb.on("end", () => {
+          try {
+            res.render("view", {
+              title: "Книга | Просмотр",
+              book: findedBook,
+              views: JSON.parse(responseBody).views,
+            });
+          } catch (e) {
+            console.error(`problem with request: ${e.message}`);
+          }
+        });
+      }
+    );
+    counterReq.end();
   } else {
     res.redirect("/404");
   }
