@@ -72,3 +72,52 @@
 Добавлены файлы для контейнеризации приложений, и файл `docker-compose.yml`. Для запуска выполнить команду `docker-compose up`
 
 [Ссылка](https://hub.docker.com/repository/docker/johnsterr/library-app) на контейнеризированное приложение "Библиотека"
+
+#### Этап 5
+
+Примеры запросов к БД MongoDB:
+
+- Запрос для вставки двух книг в коллекцию **books**:
+
+```
+db.books.insertMany(
+  [
+    {
+      title: "Книга1",
+      description: "Описание книги1",
+      authors: "Автор книги1"
+    },
+    {
+      title: "Книга2",
+      description: "Описание книги2",
+      authors: "Автор книги2"
+    }
+  ],
+)
+```
+
+- Запрос для поиска полей документа коллекции **books** по полю _title_:
+
+```
+db.books.find(
+  {
+    title: "Книга1",
+  }
+)
+```
+
+- Запрос для редактирования полей _description_ и _authors_ коллекции **books** по _\_id_ записи:
+
+```
+db.books.updateOne(
+  {
+    _id: 1
+  },
+  {
+    $set: {
+      description: "новое описание",
+      authors: "новый автор"
+    }
+  }
+)
+```
