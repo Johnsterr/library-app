@@ -1,11 +1,18 @@
 services:
-  redis-db:
-    container_name: "redis-db"
-    image: redis
-    ports:
-      - "6379:6379"
+  mongo-db:
+    container_name: "mongo-db"
+    image: mongo
     volumes:
-      - ./redis/data:/data/
+      - ./mongo:/data/db
+    env_file:
+      - ./config/.env
+  mongo-express:
+    container_name: "mongo-express"
+    image: mongo-express
+    ports:
+      - 8081:8081
+    env_file:
+      - ./config/.env
   library-app:
     container_name: "library-app"
     image: library-app
@@ -17,20 +24,6 @@ services:
     volumes:
       - ./library-app:/usr/library-app
     depends_on:
-      - book-views-counter
-    env_file:
-      - ./config/.env
-  book-views-counter:
-    container_name: "book-views-counter"
-    image: book-views-counter
-    build:
-      context: ./book-views-counter
-      dockerfile: Dockerfile
-    ports:
-      - 3030:3030
-    volumes:
-      - ./book-views-counter:/usr/book-views-counter
-    depends_on:
-      - redis-db
+      - mongo-db
     env_file:
       - ./config/.env

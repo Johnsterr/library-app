@@ -2,4 +2,8 @@
 .vscode
 **/node_modules
 
+# Служебные файлы
 **/.env
+
+# Папка для БД
+mongo/**/*

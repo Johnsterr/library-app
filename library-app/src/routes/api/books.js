@@ -23,7 +23,7 @@ arLibrary.addBookIntoLibrary(
 arLibrary.addBookIntoLibrary(
   new Book(
     "Дюна",
-    "Фэнтази о пустунной планете",
+    "Фэнтази о пустынной планете",
     "Ф. Герберт",
     "",
     "",
