@@ -38,6 +38,13 @@ router.get("/:id", async (req, res) => {
 
   try {
     const book = await Book.findById(id).select("-__v");
+
+    if (!book) {
+      res.status(404).json({
+        errorCode: 404,
+        message: `Книга с ${id} не найдена`,
+      });
+    }
     res.json(book);
   } catch (e) {
     res.status(500).json({
@@ -51,7 +58,15 @@ router.put("/:id", async (req, res) => {
   const {title, description} = req.body;
   const {id} = req.params;
   try {
-    await Book.findByIdAndUpdate(id, {title, description});
+    const book = await Book.findByIdAndUpdate(id, {title, description});
+
+    if (!book) {
+      res.status(404).json({
+        errorCode: 404,
+        message: `Книга с ${id} не найдена`,
+      });
+    }
+
     res.redirect(`/api/books/${id}`);
   } catch (e) {
     res.status(500).json({
@@ -65,8 +80,16 @@ router.delete("/:id", async (req, res) => {
   const {id} = req.params;
 
   try {
-    await Book.deleteOne({_id: id});
-    res.json(true);
+    const book = await Book.deleteOne({_id: id});
+
+    if (!book) {
+      res.status(404).json({
+        errorCode: 404,
+        message: `Книга с ${id} не найдена`,
+      });
+    }
+
+    res.json("ok");
   } catch (e) {
     res.status(500).json({
       errorCode: 500,
