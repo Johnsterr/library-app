@@ -1,6 +1,7 @@
 require("dotenv").config();
 const nodePath = require("path");
 const express = require("express");
+const mongoose = require("mongoose");
 const errorMiddleware = require("./middleware/error.js");
 // Маршруты страниц
 const indexRouter = require("./routes/pages.js");
@@ -23,6 +24,16 @@ app.use("/api/books", apiBooksRoutes);
 app.use(errorMiddleware);
 
 const PORT = process.env.APP_PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Express server listening on port ${PORT}`);
-});
+const MONGO_DB_URL = process.env.ME_CONFIG_MONGODB_URL;
+
+async function start() {
+  try {
+    await mongoose.connect(MONGO_DB_URL, {useUnifiedTopology: true});
+    console.log(`Express server connected with Mongo`);
+    app.listen(PORT, () => {
+      console.log(`Express server listening on port ${PORT}\n`);
+    });
+  } catch (error) {}
+}
+
+start();
