@@ -43,3 +43,24 @@ exports.findByUsername = function (username, cb) {
 exports.verifyPassword = (user, password) => {
   return user.password === password;
 };
+
+exports.signupUser = function (user) {
+  process.nextTick(function () {
+    records.sort((a, b) => {
+      return a.id > b.id ? -1 : 1;
+    });
+
+    const id = records[0].id + 1;
+    const userData = {
+      id: id,
+      username: user.username,
+      password: user.password,
+      displayName: user.name,
+      emails: [{value: user.email}],
+    };
+
+    records.push(userData);
+
+    return userData;
+  });
+};
