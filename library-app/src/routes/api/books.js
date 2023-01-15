@@ -2,6 +2,7 @@ const nodePath = require("path");
 const {Router} = require("express");
 const router = Router();
 const fileBook = require("../../middleware/fileBooks.js");
+const iocContainer = require("../../inversify.config.js");
 
 const Book = require("../../models/Book.js");
 
@@ -37,7 +38,9 @@ router.get("/:id", async (req, res) => {
   const {id} = req.params;
 
   try {
-    const book = await Book.findById(id).select("-__v");
+    //const book = await Book.findById(id).select("-__v");
+    const repo = iocContainer.get(BooksRepository);
+    const book = await repo.getBooks(req.params.id);
 
     if (!book) {
       res.status(404).json({

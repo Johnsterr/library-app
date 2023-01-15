@@ -1,1 +1,5 @@
-export interface IBook {}
+export interface IBook {
+  id: string;
+  name: string;
+  author: string;
+}

@@ -1,1 +1,3 @@
-export interface IBooksRepository {}
+export interface IBooksRepository {
+  getBooks(): any[];
+}

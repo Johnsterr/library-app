@@ -7,4 +7,5 @@ COPY . .
 EXPOSE 3000
 RUN chown -R node /usr/library-app
 USER node
-CMD ["npm", "run", "dev"]
+RUN tsc
+CMD ["npm", "start"]
