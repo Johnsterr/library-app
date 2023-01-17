@@ -37,3 +37,5 @@ router.post("/", async (req, res, next) => {
     });
   }
 });
+
+export const booksRouter = router;
