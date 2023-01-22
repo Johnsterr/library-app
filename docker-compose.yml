@@ -1,9 +1,27 @@
 services:
+  library-app:
+    container_name: library-app-nestjs-dev
+    image: library-app-nestjs-dev:1.0.0
+    build:
+      context: ./library-app
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - library-app-nestjs-network
+    depends_on:
+      - mongo-db
+    env_file:
+      - ./config/.env
+    volumes:
+      - ./library-app:/usr/library-app
+      - /usr/library-app/node_modules
+    restart: unless-stopped
   mongo-db:
     container_name: "mongo-db"
     image: mongo
     networks: 
-      - mongo-compose-network
+      - library-app-nestjs-network
     ports:
       - 27017:27017
     env_file:
@@ -16,9 +34,9 @@ services:
     container_name: "mongo-express"
     image: mongo-express
     networks: 
-      - mongo-compose-network
+      - library-app-nestjs-network
     ports:
-      - 8081:8081
+      - 3081:8081
     depends_on:
       - mongo-db
     env_file:
@@ -27,25 +45,9 @@ services:
       - type: volume
         source: mongo
         target: /data/db
-  library-app:
-    container_name: "library-app"
-    image: library-app
-    build:
-      context: ./library-app
-      dockerfile: Dockerfile
-    networks: 
-      - mongo-compose-network
-    ports:
-      - 80:3000
-    depends_on:
-      - mongo-db
-    env_file:
-      - ./config/.env
-    volumes:
-      - ./library-app:/usr/library-app
 
 networks:
-  mongo-compose-network:
+  library-app-nestjs-network:
     driver: bridge
 volumes:
   mongo:
