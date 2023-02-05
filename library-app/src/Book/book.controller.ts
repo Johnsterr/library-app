@@ -1,11 +1,23 @@
-import {Controller, Post, Body, Get, Put, Param, Delete} from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Put,
+  Param,
+  Delete,
+  UseInterceptors,
+} from "@nestjs/common";
 import {HydratedDocument, QueryWithHelpers} from "mongoose";
+import {BookLoggerInterceptor} from "./book.logger.interceptors";
 import {BookService} from "./book.service";
+import {BookIdValidationPipe} from "./book.validation.pipe";
 import {CreateBookDto} from "./DTO/create-book";
 import {UpdateBookDto} from "./DTO/update-book";
 import {IParamId} from "./Interfaces/param-id";
 import {BookDocument} from "./Schemas/book.schema";
 
+@UseInterceptors(BookLoggerInterceptor)
 @Controller("book")
 export class BookController {
   constructor(private readonly bookService: BookService) {}
@@ -22,7 +34,7 @@ export class BookController {
 
   @Put(":id")
   public update(
-    @Param() {id}: IParamId,
+    @Param("id", BookIdValidationPipe) {id}: IParamId,
     @Body() body: UpdateBookDto
   ): QueryWithHelpers<
     HydratedDocument<BookDocument, {}, {}> | null,

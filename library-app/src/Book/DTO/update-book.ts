@@ -1,5 +1,5 @@
 export interface UpdateBookDto {
   title: string;
-  description: string;
+  description?: string;
   authors: string[];
 }
